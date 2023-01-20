@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mongodb1:
+    container_name: mongodb1
+    image: mongo:5.0.2
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=MongoDB2019!
+    ports:
+      - 27018:27017
+    volumes:
+      - db1:/data/db
+
+  mongodb2:
+    container_name: mongodb2
+    image: mongo:5.0.2
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=MongoDB2019!
+    ports:
+      - 27019:27017
+    volumes:
+      - db2:/data/db
+
+volumes:
+  db1:
+  db2:

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: maas-job-renovacao-cesta
+spec:
+  ttlSecondsAfterFinished: 10
+  completions: 2
+  parallelism: 2
+  template:
+    metadata:
+      name: maas-job-renovacao-cesta
+    spec:
+      containers:
+      - name: maas-renovacao-cesta
+        image: luizlipefs/maas-renovacao-cesta:1.0.3
+      restartPolicy: Never

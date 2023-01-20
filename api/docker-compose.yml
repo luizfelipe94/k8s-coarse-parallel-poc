@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+
+    postgres:
+        container_name: maas_pg
+        image: postgres:14.1-alpine
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=maas
+        ports:
+            - '5433:5432'
+        volumes:
+            - db:/var/lib/postgresql/data
+        networks:
+            - maas-net
+
+    pgadmin:
+        container_name: maas_pg_admin
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "admin@maas.com.br"
+            PGADMIN_DEFAULT_PASSWORD: "maas2022!"
+        ports:
+            - "16543:80"
+        depends_on:
+            - postgres
+        networks:
+            - maas-net
+
+    sqs:
+        image: roribio16/alpine-sqs:1.2.0
+        container_name: maas_sqs
+        volumes:
+            - ./config/elasticmq.conf:/opt/config/elasticmq.conf
+        ports:
+            - "9324:9324"
+            - "9325:9325"
+        networks:
+            - maas-net
+
+    maildev:
+        container_name: maas_maildev
+        image: maildev/maildev:2.0.5
+        ports:
+            - 1080:1080
+            - 1025:1025
+        networks:
+            - maas-net
+
+
+volumes:
+    db:
+
+networks:
+    maas-net:

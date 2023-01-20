@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: maas-job-pending-transactions
+spec:
+  ttlSecondsAfterFinished: 10
+  completions: 2
+  parallelism: 2
+  template:
+    metadata:
+      name: maas-job-pending-transactions
+    spec:
+      containers:
+      - name: maas-pending-transactions
+        image: luizlipefs/maas-pending-transactions:1.0.2
+      restartPolicy: Never
